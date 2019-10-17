@@ -20,7 +20,7 @@ include_directories(
     ${sdl2core_sdl2}
     ${sdl2core_img}
     ${sdl2core_ttf}
-    ${json}
+    ${NLOHMANN_JSON_INCLUDE_BUILD_DIR}
     ${Arguments}
     ${Util}
     ${Texture}
