@@ -1,0 +1,3 @@
+[submodule "sdl2core"]
+	path = sdl2core
+	url = git@github.com:mtkaalund/sdl2core.git
