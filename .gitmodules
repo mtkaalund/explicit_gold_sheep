@@ -4,3 +4,6 @@
 [submodule "cmake"]
 	path = cmake
 	url = https://github.com/tcbrindle/sdl2-cmake-scripts.git
+[submodule "json"]
+	path = json
+	url = https://github.com/nlohmann/json.git

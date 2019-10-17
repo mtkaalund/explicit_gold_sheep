@@ -1,5 +1,5 @@
-#ifndef _ARGUMENTS_H_
-#define _ARGUMENTS_H_
+#ifndef ARGUMENTS_H_
+#define ARGUMENTS_H_
 
 #include <string>
 #include <sstream>
