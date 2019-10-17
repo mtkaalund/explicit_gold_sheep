@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/sdl2core/sdl2core_sdl2/include/sdl2core/*",
+                "${workspaceFolder}/sdl2core/sdl2core_img/include/sdl2core/*",
+                "${workspaceFolder}/sdl2core/sdl2core_net/include/sdl2core/*",
+                "${workspaceFolder}/sdl2core/sdl2core_ttf/include/sdl2core/*",
+                "${workspaceFolder}/sdl2core/sdl2core_mix/include/sdl2core/*",
+                "${workspaceFolder}/src/GameState/include/*"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "clang-x64"
+        }
+    ],
+    "version": 4
+}
