@@ -16,6 +16,9 @@ add_subdirectory(Arguments)
 add_subdirectory(Util)
 add_subdirectory(Texture)
 
+add_subdirectory(src/GameState)
+add_subdirectory(src/SplashState)
+
 include_directories(
     ${sdl2core_sdl2}
     ${sdl2core_img}
@@ -24,6 +27,8 @@ include_directories(
     ${Arguments}
     ${Util}
     ${Texture}
+    ${GameState}
+    ${SplashState}
 )
 
 #Setting C++ standard to C++17
@@ -41,4 +46,6 @@ target_link_libraries( ${PROJECT_NAME}
     Arguments
     Util
     Texture
+    GameState
+    SplashState
 )
