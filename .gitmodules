@@ -1,3 +1,6 @@
 [submodule "sdl2core"]
 	path = sdl2core
 	url = git@github.com:mtkaalund/sdl2core.git
+[submodule "cmake"]
+	path = cmake
+	url = https://github.com/tcbrindle/sdl2-cmake-scripts.git
