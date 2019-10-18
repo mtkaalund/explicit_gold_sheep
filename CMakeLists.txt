@@ -20,6 +20,7 @@ add_subdirectory(Font)
 
 add_subdirectory(src/GameState)
 add_subdirectory(src/SplashState)
+add_subdirectory(src/TestState)
 
 include_directories(
     SYSTEM
@@ -33,6 +34,7 @@ include_directories(
     ${Font}
     ${GameState}
     ${SplashState}
+    ${TestState}
 )
 
 #Setting C++ standard to C++17
@@ -56,6 +58,7 @@ target_link_libraries( ${PROJECT_NAME}
     Font
     GameState
     SplashState
+    TestState
 )
 
 file(GLOB images
