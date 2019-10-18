@@ -9,6 +9,7 @@ include_directories(
     ../../json/single_include
     ${GameState_INCLUDE_DIR}
     ${Texture_INCLUDE_DIR}
+    ${Font_INCLUDE_DIR}
 )
 
 add_library(${PROJECT_NAME} src/SplashState.cc)
@@ -25,4 +26,5 @@ target_link_libraries( ${PROJECT_NAME}
     nlohmann_json
     GameState
     Texture
+    Font
 )

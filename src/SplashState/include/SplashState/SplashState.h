@@ -2,8 +2,11 @@
 #define SPLASHSTATE_H_
 
 #include <GameState.h>
+
 #include <sdl2core/SDL2.h>
 #include <sdl2core/IMG.h>
+
+#include <sdl2class/Font.h>
 #include <sdl2class/Texture.h>
 
 namespace mtkaalund {
@@ -11,6 +14,9 @@ namespace mtkaalund {
         private:
             sdl2class::Texture *    m_image;
             sdl2class::Texture      m_image_2;
+            sdl2class::Texture      m_text;
+
+            sdl2class::Font         m_font;
 
             int                     m_x_travel;
         public:
