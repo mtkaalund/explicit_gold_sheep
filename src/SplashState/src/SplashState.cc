@@ -9,7 +9,8 @@ void SplashState::init_state() {
         throw TTFException();
     }
 
-    SDL_Color fb_color = {0x13, 0x8d, 0x75, 0x0f};
+    //#2E4053
+    SDL_Color fb_color = {0x2e, 0x40, 0x53, 0x0f};
     SDL_Surface * tmp = this->m_font.RenderText("MTKaalund Productions Presents", sdl2class::SOLID, &fb_color);
 
     if( tmp == nullptr ) {
@@ -22,38 +23,20 @@ void SplashState::init_state() {
 
     this->m_x_travel = 0;
 
-    this->m_image_2.set_renderer( this->p_renderer );
-
     int _window_width, _window_height;
     SDL_GetWindowSize( this->p_window, &_window_width, &_window_height );
 
-    if( this->m_image_2.create_blank( _window_width, _window_height, SDL_TEXTUREACCESS_TARGET ) == false ) {
-        throw IMGException( "Failed to create target Texture" );
-    }
 }
 
 void SplashState::renderer() {
     int _window_width, _window_height;
     SDL_GetWindowSize( this->p_window, &_window_width, &_window_height );
 
-    this->m_image_2.set_as_render_target();
-
+    SDL_RenderClear( this->p_renderer );
     SDL_SetRenderDrawColor( this->p_renderer, 0xff, 0xff, 0xff, 0xff );
-    SDL_RenderClear( this->p_renderer );
-
-    SDL_Rect fill_rect = { _window_width/10, _window_height/5, _window_width/10, _window_height/5 };
-    SDL_SetRenderDrawColor( this->p_renderer, 0xff, 0x00, 0x00, 0xff );
-    SDL_RenderFillRect( this->p_renderer, &fill_rect );
-
-    SDL_SetRenderDrawColor( this->p_renderer, 0xff, 0xff, 0xff, 0xff);
-    SDL_SetRenderTarget( this->p_renderer, nullptr );
-    SDL_RenderClear( this->p_renderer );
 
     this->m_image->set_point( this->m_x_travel, _window_height/2 - this->m_image->get_current_height()/2 );
     this->m_image->renderer();
-
-    this->m_image_2.set_point( _window_width/2, _window_height/2);
-    this->m_image_2.renderer();
 
     this->m_text.set_point( 0, 0 );
     this->m_text.renderer();

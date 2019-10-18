@@ -13,7 +13,6 @@ namespace mtkaalund {
     class SplashState : public mtkaalund::GameState {
         private:
             sdl2class::Texture *    m_image;
-            sdl2class::Texture      m_image_2;
             sdl2class::Texture      m_text;
 
             sdl2class::Font         m_font;
