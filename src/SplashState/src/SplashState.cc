@@ -23,19 +23,20 @@ void SplashState::init_state() {
 
     this->m_x_travel = 0;
 
-    int _window_width, _window_height;
-    SDL_GetWindowSize( this->p_window, &_window_width, &_window_height );
+    this->get_window_size();
 
+    //int _window_width, _window_height;
+    //SDL_GetWindowSize( this->p_window, &_window_width, &_window_height );
 }
 
 void SplashState::renderer() {
-    int _window_width, _window_height;
-    SDL_GetWindowSize( this->p_window, &_window_width, &_window_height );
+//    int _window_width, _window_height;
+//    SDL_GetWindowSize( this->p_window, &_window_width, &_window_height );
 
     SDL_RenderClear( this->p_renderer );
     SDL_SetRenderDrawColor( this->p_renderer, 0xff, 0xff, 0xff, 0xff );
 
-    this->m_image->set_point( this->m_x_travel, _window_height/2 - this->m_image->get_current_height()/2 );
+    this->m_image->set_point( this->m_x_travel, p_window_height/2 - this->m_image->get_current_height()/2 );
     this->m_image->renderer();
 
     this->m_text.set_point( 0, 0 );
@@ -44,7 +45,7 @@ void SplashState::renderer() {
 
     SDL_Delay(10);
 
-    if( this->m_x_travel >= _window_width ) {
+    if( this->m_x_travel >= this->p_window_width ) {
         this->state_finished = true;
     }
 }
