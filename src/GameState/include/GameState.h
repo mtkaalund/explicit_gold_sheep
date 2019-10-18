@@ -15,6 +15,7 @@ public:
     virtual void renderer() {};
 
     bool state_finished;
+    bool state_force_quit;
     SDL_Window      * p_window      = nullptr;
     SDL_Renderer    * p_renderer    = nullptr;
 
