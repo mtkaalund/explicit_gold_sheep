@@ -103,18 +103,28 @@ int main( int argc, char * argv[] ) {
             game_states.pop_front();
 
             state->state_finished = false;
+            state->state_force_quit = false;
             state->p_window = m_window;
             state->p_renderer = m_renderer;
             state->config = config;
 
             state->init_state();
-            while( state->state_finished == false ) {
+            while( state->state_finished == false && state->state_force_quit == false ) {
                 state->handle_event();
+
+                if( state->state_force_quit == true ) {
+                    break;
+                }
+
                 state->update();
                 state->renderer();
             }
 
             config = state->config;
+
+            if( state->state_force_quit == true ) {
+                break;
+            }
         }
         std::ofstream config_out( config_path );
         config_out << std::setw(4) << config << std::endl;
