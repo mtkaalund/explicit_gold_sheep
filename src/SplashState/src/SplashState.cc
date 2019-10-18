@@ -25,10 +25,11 @@ void SplashState::renderer() {
     SDL_SetRenderDrawColor( this->p_renderer, 0xff, 0xff, 0xff, 0xff );
     SDL_RenderClear( this->p_renderer );
 
-    SDL_Rect fill_rect = { _window_width/4, _window_height/2, _window_width/2, _window_height/2 };
+    SDL_Rect fill_rect = { _window_width/10, _window_height/5, _window_width/10, _window_height/5 };
     SDL_SetRenderDrawColor( this->p_renderer, 0xff, 0x00, 0x00, 0xff );
     SDL_RenderFillRect( this->p_renderer, &fill_rect );
 
+    SDL_SetRenderDrawColor( this->p_renderer, 0xff, 0xff, 0xff, 0xff);
     SDL_SetRenderTarget( this->p_renderer, nullptr );
     SDL_RenderClear( this->p_renderer );
 
@@ -47,7 +48,16 @@ void SplashState::renderer() {
 }
 
 void SplashState::handle_event() {
+    SDL_Event event;
 
+    while( SDL_PollEvent( &event ) ) {
+        switch( event.type ) {
+            case SDL_QUIT:
+                this->state_force_quit = true;
+                this->state_finished = true;
+                break;
+        }
+    }
 }
 
 void SplashState::update() {
