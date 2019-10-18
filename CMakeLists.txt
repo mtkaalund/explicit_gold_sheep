@@ -16,6 +16,7 @@ add_subdirectory(sdl2core)
 add_subdirectory(Arguments)
 add_subdirectory(Util)
 add_subdirectory(Texture)
+add_subdirectory(Font)
 
 add_subdirectory(src/GameState)
 add_subdirectory(src/SplashState)
@@ -29,6 +30,7 @@ include_directories(
     ${Arguments}
     ${Util}
     ${Texture}
+    ${Font}
     ${GameState}
     ${SplashState}
 )
@@ -51,6 +53,7 @@ target_link_libraries( ${PROJECT_NAME}
     Arguments
     Util
     Texture
+    Font
     GameState
     SplashState
 )
