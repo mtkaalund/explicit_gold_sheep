@@ -14,7 +14,7 @@ public:
     virtual void update() {};
     virtual void renderer() {};
 
-    void get_window_size() {
+    inline void get_window_size() {
         SDL_GetWindowSize( this->p_window, &p_window_width, &p_window_height );
     }
 
