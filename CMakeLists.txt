@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 
 project(TileGame VERSION 1.0.1 LANGUAGES CXX)
 
+set(BIN_DIR ${PROJECT_SOURCE_DIR}/bin)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
 
 find_package(SDL2 REQUIRED)
@@ -20,6 +21,7 @@ add_subdirectory(src/GameState)
 add_subdirectory(src/SplashState)
 
 include_directories(
+    SYSTEM
     ${sdl2core_sdl2}
     ${sdl2core_img}
     ${sdl2core_ttf}
@@ -37,15 +39,44 @@ set(CMAKE_CXX_STANDARD 17)
 add_executable(${PROJECT_NAME} src/main.cc)
 
 target_link_libraries( ${PROJECT_NAME}
+    ${SDL2_LIBRARY}
+    ${SDL2_IMAGE_LIBRARY}
+    ${SDL2_TTF_LIBRARY}
+    SDL2_ttf
     sdl2core::sdl2
     sdl2core::img
     sdl2core::ttf
-    ${SDL2_LIBRARY}
-    ${SDL2_IMAGE_LIBRARY}
+
     nlohmann_json
     Arguments
     Util
     Texture
     GameState
     SplashState
+)
+
+file(GLOB images
+    "res/images/*.png"
+    "res/images/*.jpg"
+    "res/images/*.jpeg"
+)
+
+file(GLOB fonts
+    "res/fonts/*.ttf"
+)
+
+set(RESOURCE_FILES
+    ${images}
+    ${fonts}
+)
+
+set_target_properties(
+    ${PROJECT_NAME} PROPERTIES
+    RESOURCE "${RESOURCE_FILES}"
+)
+
+install(
+    TARGETS ${PROJECT_NAME}
+    RUNTIME DESTINATION ${BIN_DIR}
+    RESOURCE DESTINATION ${BIN_DIR}/res/
 )
