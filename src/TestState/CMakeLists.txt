@@ -23,7 +23,7 @@ target_link_libraries( ${PROJECT_NAME}
     sdl2core::ttf
     ${SDL2_LIBRARY}
     ${SDL2_IMAGE_LIBRARY}
-    nlohmann_json
+    nlohmann_json::nlohmann_json
     GameState
     Texture
     Font
