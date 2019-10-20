@@ -263,6 +263,10 @@ void Texture::load( SDL_Surface * _surface )
 }
 
 void Texture::renderer() {
+    if( this->_clip != nullptr ) {
+        this->_rect->w = this->_clip->w;
+        this->_rect->h = this->_clip->h;
+    }
     //SDL_RenderCopy( this->_renderer, this->_texture, this->_clip, this->_rect);//&this->_rect );
     SDL_RenderCopyEx( this->_renderer, this->_texture, this->_clip, this->_rect, this->_angle, this->_center, this->_flip);
 }
