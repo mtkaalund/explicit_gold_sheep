@@ -44,12 +44,12 @@ int main( int argc, char * argv[] ) {
     // Create a config path string
     std::string config_path = env["HOME"].get<std::string>() + "/.tile_game/config.json";
 
-    if( if_file_exists( config_path ) == true ) {
+    if( mtkaalund::if_file_exists( config_path ) == true ) {
         std::ifstream config_input( config_path );
         config_input >> config;
     } else {
         std::cerr << "Found no config at: " << config_path << std::endl;
-        create_directory( env["HOME"].get<std::string>() + "/.tile_game/saves", true );
+        mtkaalund::create_directory( env["HOME"].get<std::string>() + "/.tile_game/saves", true );
         config["save_path"] = env["HOME"].get<std::string>() + "/.tile_game/saves/"; 
     }
 
@@ -57,7 +57,7 @@ int main( int argc, char * argv[] ) {
         config.merge_patch( arg_cfg );
     }
 
-    if( if_file_exists( config_path ) == false ) {
+    if( mtkaalund::if_file_exists( config_path ) == false ) {
         std::ofstream config_out( config_path );
         config_out << std::setw(4) << config << std::endl;
     } 
