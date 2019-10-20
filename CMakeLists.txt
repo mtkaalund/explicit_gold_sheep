@@ -10,6 +10,10 @@ find_package(SDL2_image REQUIRED)
 find_package(SDL2_ttf REQUIRED)
 
 ## External projects
+
+# Typically you don't care so much for a third party library's tests to be
+# run from your own project's code.
+set(JSON_BuildTests OFF CACHE INTERNAL "")
 add_subdirectory(json)
 ## Internal projects
 add_subdirectory(sdl2core)
@@ -51,7 +55,7 @@ target_link_libraries( ${PROJECT_NAME}
     sdl2core::img
     sdl2core::ttf
 
-    nlohmann_json
+    nlohmann_json::nlohmann_json
     Arguments
     Util
     Texture
