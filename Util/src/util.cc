@@ -59,4 +59,38 @@ bool create_directory( const std::string& name, bool create_parent)
 	return true;
 }
 
+map_of_rect load_from_json( std::string filename ) {
+	if( if_file_exists( filename ) == false ) {
+		throw "No file found: " + filename;
+	}
+
+	map_of_rect sprite;
+
+	nlohmann::json spritesheet_json;
+    std::ifstream file_input("res/UI/Spritesheet/blueSheet.json");
+    file_input >> spritesheet_json;
+    file_input.close();
+    
+    for(auto& element: spritesheet_json["TextureAtlas"]["SubTexture"]) {
+        std::stringstream str_tmp;
+        
+        str_tmp << std::string(element["@height"]);
+        str_tmp >> sprite[std::string( element["@name"] )].h;
+        
+        str_tmp.clear();
+        str_tmp << std::string(element["@width"]);
+        str_tmp >> sprite[std::string( element["@name"] )].w;
+
+        str_tmp.clear();
+        str_tmp << std::string(element["@x"]);
+        str_tmp >> sprite[std::string( element["@name"] )].x;
+
+        str_tmp.clear();
+        str_tmp << std::string(element["@y"]);
+        str_tmp >> sprite[std::string( element["@name"] )].y;
+    }
+
+	return sprite;
+}
+
 }
