@@ -1,5 +1,7 @@
 #include <Util/util.h>
 
+namespace mtkaalund {
+
 bool if_file_exists( std::string file_path )
 {
 	return static_cast<bool>(std::ifstream(file_path));
@@ -55,4 +57,6 @@ bool create_directory( const std::string& name, bool create_parent)
 	}
 	#endif
 	return true;
+}
+
 }
