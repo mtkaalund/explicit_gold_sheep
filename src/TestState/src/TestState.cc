@@ -10,10 +10,6 @@ void TestState::init_state() {
     std::ifstream file_input("res/UI/Spritesheet/blueSheet.json");
     file_input >> spritesheet_json;
     file_input.close();
-
-    std::cout << std::setw(4) << spritesheet_json << std::endl;
-
-    std::cout << std::setw(4) << spritesheet_json["TextureAtlas"]["SubTexture"] << std::endl;
     
     for(auto& element: spritesheet_json["TextureAtlas"]["SubTexture"]) {
         std::stringstream str_tmp;
