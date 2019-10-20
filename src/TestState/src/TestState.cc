@@ -3,37 +3,39 @@
 namespace mtkaalund {
 
 void TestState::init_state() {
-    this->m_image = new sdl2class::Texture( this->p_renderer, "res/UI/Spritesheet/blueSheet.png" );
+    this->m_images["UI_red"].set_renderer( this->p_renderer );
+    this->m_images["UI_green"].set_renderer( this->p_renderer );
+    this->m_images["UI_blue"].set_renderer( this->p_renderer );
+    this->m_images["UI_grey"].set_renderer( this->p_renderer );
+    this->m_images["UI_yellow"].set_renderer( this->p_renderer );
 
+    this->m_images["UI_red"].load("res/UI/Spritesheet/redSheet.png");
+    this->m_images["UI_green"].load( "res/UI/Spritesheet/greenSheet.png");
+    this->m_images["UI_blue"].load( "res/UI/Spritesheet/blueSheet.png");
+    this->m_images["UI_grey"].load( "res/UI/Spritesheet/greySheet.png");
+    this->m_images["UI_yellow"].load( "res/UI/Spritesheet/yellowSheet.png");
 
-    nlohmann::json spritesheet_json;
-    std::ifstream file_input("res/UI/Spritesheet/blueSheet.json");
-    file_input >> spritesheet_json;
-    file_input.close();
-    
-    for(auto& element: spritesheet_json["TextureAtlas"]["SubTexture"]) {
-        std::stringstream str_tmp;
-        
-        str_tmp << std::string(element["@height"]);
-        str_tmp >> sprite[std::string( element["@name"] )].h;
-        
-        str_tmp.clear();
-        str_tmp << std::string(element["@width"]);
-        str_tmp >> sprite[std::string( element["@name"] )].w;
-
-        str_tmp.clear();
-        str_tmp << std::string(element["@x"]);
-        str_tmp >> sprite[std::string( element["@name"] )].x;
-
-        str_tmp.clear();
-        str_tmp << std::string(element["@y"]);
-        str_tmp >> sprite[std::string( element["@name"] )].y;
+    for(auto &element : this->m_images ) {
+        std::cout << element.first << " is loaded: " << std::boolalpha << element.second.is_loaded() << std::endl;
     }
 
-    std::cout << "Size of sprite: " << sprite.size() << std::endl;
+    this->sprites["UI_red"] = mtkaalund::load_from_json("res/UI/Spritesheet/redSheet.json");
+    this->sprites["UI_green"] = mtkaalund::load_from_json("res/UI/Spritesheet/greenSheet.json");
+    this->sprites["UI_blue"] = mtkaalund::load_from_json("res/UI/Spritesheet/blueSheet.json");
+    this->sprites["UI_grey"] = mtkaalund::load_from_json("res/UI/Spritesheet/greySheet.json");
+    this->sprites["UI_yellow"] = mtkaalund::load_from_json("res/UI/Spritesheet/yellowSheet.json");
 
-    sprite_iterator =  sprite.begin();
-    this->m_image->set_clip( &sprite_iterator->second );
+    red_iterator = this->sprites["UI_red"].begin();
+    green_iterator = this->sprites["UI_green"].begin();
+    blue_iterator = this->sprites["UI_blue"].begin();
+    grey_iterator = this->sprites["UI_grey"].begin();
+    yellow_iterator = this->sprites["UI_yellow"].begin();
+
+    this->m_images["UI_red"].set_clip( &red_iterator->second );
+    this->m_images["UI_green"].set_clip( &green_iterator->second );
+    this->m_images["UI_blue"].set_clip( &blue_iterator->second );
+    this->m_images["UI_grey"].set_clip( &grey_iterator->second );
+    this->m_images["UI_yellow"].set_clip( &yellow_iterator->second );
 
     if( this->m_font.load( "res/UI/Font/kenvector_future.ttf", 30) == false ) {
         throw TTFException();
@@ -63,10 +65,14 @@ void TestState::renderer() {
     SDL_RenderClear( this->p_renderer );
     SDL_SetRenderDrawColor( this->p_renderer, 0xff, 0xff, 0xff, 0xff );
 
-    this->m_image->set_point( this->m_x_travel, p_window_height/2 - sprite_iterator->second.h/2 );
-    this->m_image->renderer( );
+    int index = 50;
+    for( auto itr = this->m_images.begin(); itr != this->m_images.end(); ++itr ) {
+        itr->second.set_point(this->m_x_travel, index );
+        itr->second.renderer();
+        index += 50;
+    }
 
-    this->m_text.set_point( 0, 0 );
+    this->m_text.set_point( 5, 0 );
     this->m_text.renderer();
     SDL_RenderPresent( this->p_renderer );
 }
@@ -88,11 +94,35 @@ void TestState::handle_event() {
                         this->state_finished = true; // Soft quit
                         break;
                     case SDLK_SPACE:
+                        this->red_iterator++;
+                        this->green_iterator++;
+                        this->blue_iterator++;
+                        this->grey_iterator++;
+                        this->yellow_iterator++;
                         this->sprite_iterator++;
-                        if( this->sprite_iterator == sprite.end() ) {
-                            this->sprite_iterator = sprite.begin();
+
+                        if( this->red_iterator == this->sprites["UI_red"].end() ) {
+                            this->red_iterator = this->sprites["UI_red"].begin();
                         }
-                        this->m_image->set_clip( &sprite_iterator->second );
+
+                        if( this->green_iterator == this->sprites["UI_green"].end() ) {
+                            this->green_iterator = this->sprites["UI_green"].begin();
+                        }
+                        if( this->blue_iterator == this->sprites["UI_blue"].end() ) {
+                            this->blue_iterator = this->sprites["UI_blue"].begin();
+                        }
+                        if( this->grey_iterator == this->sprites["UI_grey"].end() ) {
+                            this->grey_iterator = this->sprites["UI_grey"].begin();
+                        }
+                        if( this->yellow_iterator == this->sprites["UI_yellow"].end() ) {
+                            this->yellow_iterator = this->sprites["UI_yellow"].begin();
+                        }
+
+                        this->m_images["UI_red"].set_clip( &this->red_iterator->second );
+                        this->m_images["UI_green"].set_clip( &this->green_iterator->second );
+                        this->m_images["UI_blue"].set_clip( &this->blue_iterator->second );
+                        this->m_images["UI_grey"].set_clip( &this->grey_iterator->second );
+                        this->m_images["UI_yellow"].set_clip( &this->yellow_iterator->second );
 
                         break;
                 }
@@ -108,7 +138,6 @@ void TestState::update() {
 
     if( this->m_x_travel >= this->p_window_width ) {
         this->m_x_direction = -1;
-        //this->state_finished = true;
     } else if( this->m_x_travel <= 0 ) {
         this->m_x_direction = 1;
     }
