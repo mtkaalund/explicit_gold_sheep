@@ -29,7 +29,10 @@ namespace mtkaalund {
             std::map<std::string, sdl2class::Texture> m_images;
             sdl2class::Texture      m_text;
 
+            std::map<std::string, sdl2class::Texture> m_img_text;
+
             sdl2class::Font         m_font;
+            sdl2class::Font         m_img_font;
             int                     m_x_travel;
             int                     m_x_direction;
             std::map<std::string, mtkaalund::map_of_rect> sprites;
@@ -39,6 +42,7 @@ namespace mtkaalund {
             mtkaalund::map_of_rect::iterator blue_iterator;
             mtkaalund::map_of_rect::iterator grey_iterator;
             mtkaalund::map_of_rect::iterator yellow_iterator;
+            std::map<std::string, sdl2class::Texture>::iterator font_iterator;
 
         public:
             void init_state();
