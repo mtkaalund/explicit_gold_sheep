@@ -66,29 +66,31 @@ map_of_rect load_from_json( std::string filename ) {
 
 	map_of_rect sprite;
 
-	nlohmann::json spritesheet_json;
-    std::ifstream file_input("res/UI/Spritesheet/blueSheet.json");
+	nlohmann::json spritesheet_json;// = new nlohmann::json();
+    std::ifstream file_input(filename);
     file_input >> spritesheet_json;
     file_input.close();
     
     for(auto& element: spritesheet_json["TextureAtlas"]["SubTexture"]) {
-        std::stringstream str_tmp;
-        
-        str_tmp << std::string(element["@height"]);
-        str_tmp >> sprite[std::string( element["@name"] )].h;
+		std::stringstream str_tmp;
+		std::string name = element["@name"].get<std::string>();
+		str_tmp << std::string(element["@height"]);
+        str_tmp >> sprite[ name ].h;
         
         str_tmp.clear();
         str_tmp << std::string(element["@width"]);
-        str_tmp >> sprite[std::string( element["@name"] )].w;
+        str_tmp >> sprite[ name ].w;
 
         str_tmp.clear();
         str_tmp << std::string(element["@x"]);
-        str_tmp >> sprite[std::string( element["@name"] )].x;
+        str_tmp >> sprite[ name ].x;
 
         str_tmp.clear();
         str_tmp << std::string(element["@y"]);
-        str_tmp >> sprite[std::string( element["@name"] )].y;
+        str_tmp >> sprite[ name ].y;
     }
+
+	//spritesheet_json.clear();
 
 	return sprite;
 }
