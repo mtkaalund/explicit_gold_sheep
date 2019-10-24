@@ -15,10 +15,6 @@ void TestState::init_state() {
     this->m_images["UI_grey"].load( "res/UI/Spritesheet/greySheet.png");
     this->m_images["UI_yellow"].load( "res/UI/Spritesheet/yellowSheet.png");
 
-    for(auto &element : this->m_images ) {
-        std::cout << element.first << " is loaded: " << std::boolalpha << element.second.is_loaded() << std::endl;
-    }
-
     this->sprites["UI_red"] = mtkaalund::load_from_json("res/UI/Spritesheet/redSheet.json");
     this->sprites["UI_green"] = mtkaalund::load_from_json("res/UI/Spritesheet/greenSheet.json");
     this->sprites["UI_blue"] = mtkaalund::load_from_json("res/UI/Spritesheet/blueSheet.json");
@@ -63,13 +59,13 @@ void TestState::init_state() {
 
 void TestState::renderer() {
     SDL_RenderClear( this->p_renderer );
-    SDL_SetRenderDrawColor( this->p_renderer, 0xff, 0xff, 0xff, 0xff );
+    SDL_SetRenderDrawColor( this->p_renderer, 0xf0, 0xf0, 0x0f, 0xff );
 
     int index = 50;
     for( auto itr = this->m_images.begin(); itr != this->m_images.end(); ++itr ) {
         itr->second.set_point(this->m_x_travel, index );
         itr->second.renderer();
-        index += 50;
+        index += 70;
     }
 
     this->m_text.set_point( 5, 0 );
@@ -99,12 +95,10 @@ void TestState::handle_event() {
                         this->blue_iterator++;
                         this->grey_iterator++;
                         this->yellow_iterator++;
-                        this->sprite_iterator++;
 
                         if( this->red_iterator == this->sprites["UI_red"].end() ) {
                             this->red_iterator = this->sprites["UI_red"].begin();
                         }
-
                         if( this->green_iterator == this->sprites["UI_green"].end() ) {
                             this->green_iterator = this->sprites["UI_green"].begin();
                         }
