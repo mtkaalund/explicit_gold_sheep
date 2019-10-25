@@ -24,7 +24,7 @@ add_subdirectory(Font)
 add_subdirectory(InputHandler)
 
 add_subdirectory(src/GameState)
-#add_subdirectory(src/SplashState)
+add_subdirectory(src/SplashState)
 add_subdirectory(src/TestState)
 
 include_directories(
