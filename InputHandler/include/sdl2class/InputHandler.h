@@ -8,7 +8,7 @@
 
 #include <sdl2core/SDL2.h>
 
-#include <map>
+#include <unordered_map>
 #include <vector>
 #include <functional>
 
@@ -37,7 +37,7 @@ using EventCallback = std::function< void( SDL_Event const& ) >;
 //!@endcode
 class InputHandler {
 private:
-    std::map< SDL_EventType, std::vector< EventCallback > > _callbacks; //!< Maps SDL_EventType to a std::vector of EventCallback
+    std::unordered_map< SDL_EventType, std::vector< EventCallback > > _callbacks; //!< Maps SDL_EventType to a std::vector of EventCallback
 public:
     //! Registers events takes two arguments and puts it into a std::vector
     //! \param type is a SDL_EventType
