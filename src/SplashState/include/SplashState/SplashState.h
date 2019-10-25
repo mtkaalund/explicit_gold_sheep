@@ -21,7 +21,7 @@ namespace mtkaalund {
         public:
             void init_state();
             void renderer();
-            void handle_event();
+            void register_with_inputhandler( sdl2class::InputHandler& handler );
             void update();
     };
 }

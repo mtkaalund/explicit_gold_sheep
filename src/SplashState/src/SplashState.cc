@@ -40,17 +40,18 @@ void SplashState::renderer() {
     SDL_RenderPresent( this->p_renderer );
 }
 
-void SplashState::handle_event() {
-    SDL_Event event;
-
-    while( SDL_PollEvent( &event ) ) {
-        switch( event.type ) {
-            case SDL_QUIT:
-                this->state_force_quit = true;
+void SplashState::register_with_inputhandler( sdl2class::InputHandler& handler ) {
+    handler.register_event( SDL_QUIT, [this](SDL_Event const& event ) {
+        this->state_force_quit = true;
+        this->state_finished = true;
+    });
+    handler.register_event( SDL_KEYUP, [this]( SDL_Event const& event ) {
+        switch(event.key.keysym.sym) {
+            case SDLK_ESCAPE:
                 this->state_finished = true;
                 break;
         }
-    }
+    });
 }
 
 void SplashState::update() {
