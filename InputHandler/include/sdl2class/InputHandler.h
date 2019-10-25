@@ -5,6 +5,8 @@
 //! \brief This class is not of my design.
 //! Most of the class is taken from https://gamedev.stackexchange.com/a/89793 with
 //! some alterations in order to not clash with C++ registered words.
+//! Change it from using std::map to std::unordered_map as it should'nt mattered if
+//! the data is saved in a order.
 
 #include <sdl2core/SDL2.h>
 
