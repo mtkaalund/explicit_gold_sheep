@@ -18,5 +18,12 @@ if(BUILD_DOCUMENTATION)
         COMMENT "Generating API documentation with Doxygen"
         VERBATIM)
 
-    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/html DESTINATION share/doc)
+    add_custom_target(markdown
+        COMMAND moxygen ${CMAKE_CURRENT_BINARY_DIR}/xml/
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+        COMMENT "Generating a markdown version of Doxygen xml"
+        VERBATIM
+    )
+
+    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc DESTINATION share/doc)
 endif()
