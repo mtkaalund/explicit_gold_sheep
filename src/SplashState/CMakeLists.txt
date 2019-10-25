@@ -10,6 +10,7 @@ include_directories(
     ${GameState_INCLUDE_DIR}
     ${Texture_INCLUDE_DIR}
     ${Font_INCLUDE_DIR}
+    ${InputHandler_INCLUDE_DIR}
 )
 
 add_library(${PROJECT_NAME} src/SplashState.cc)
@@ -27,4 +28,5 @@ target_link_libraries( ${PROJECT_NAME}
     GameState
     Texture
     Font
+    InputHandler
 )
