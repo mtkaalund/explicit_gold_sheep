@@ -90,7 +90,7 @@ map_of_rect load_from_json( std::string filename ) {
         str_tmp >> sprite[ name ].y;
     }
 
-	//spritesheet_json.clear();
+	spritesheet_json.clear();
 
 	return sprite;
 }
