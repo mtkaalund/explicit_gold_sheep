@@ -16,9 +16,11 @@
 #include <sdl2core/IMG.h>
 #include <sdl2core/TTF.h>
 
+#include <sdl2class/InputHandler.h>
+
 #include <Util/util.h>
 #include <GameState.h>
-#include <SplashState/SplashState.h>
+//#include <SplashState/SplashState.h>
 #include <TestState/TestState.h>
 #include <Arguments/Arguments.h>
 
@@ -75,6 +77,8 @@ int main( int argc, char * argv[] ) {
         SDL_Window * m_window = nullptr;
         SDL_Renderer * m_renderer = nullptr;
 
+        sdl2class::InputHandler m_inputhandler;
+
         // Set texture filtering to linear
         if( ! SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" ) ) {
             std::cerr << "Warning: Linear texture filtering not enabled!" << std::endl;
@@ -109,10 +113,11 @@ int main( int argc, char * argv[] ) {
             state->p_window = m_window;
             state->p_renderer = m_renderer;
             state->config = config;
+            state->register_with_inputhandler( m_inputhandler );
 
             state->init_state();
             while( state->state_finished == false && state->state_force_quit == false ) {
-                state->handle_event();
+                m_inputhandler.handle_events();
 
                 if( state->state_force_quit == true ) {
                     break;
