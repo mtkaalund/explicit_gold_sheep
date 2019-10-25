@@ -15,6 +15,8 @@ find_package(SDL2_ttf REQUIRED)
 # run from your own project's code.
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 add_subdirectory(json)
+## Documentations
+add_subdirectory(docs)
 ## Internal projects
 add_subdirectory(sdl2core)
 add_subdirectory(Arguments)
