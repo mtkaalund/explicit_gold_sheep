@@ -22,7 +22,7 @@ using EventCallback = std::function< void( SDL_Event const& ) >;
 //! class GameManager {
 //! public:
 //!
-//!  void registerWithEventHandler(EventHandler& handler) {
+//!  void registerWithEventHandler(InputHandler& handler) {
 //!    handler.register(SDL_KEYUP, [this](SDL_Event const& event){
 //!      if (event.key.keysym.sym == SDLK_ESCAPE) {
 //!        Quit();
@@ -49,7 +49,7 @@ public:
     void handle_events() {
         SDL_Event event;
         while( SDL_PollEvent( &event ) != 0 ) {
-            for( auto& cb : this->_callbacks[ event.type ] ) {
+            for( auto& cb : this->_callbacks[ (SDL_EventType)event.type ] ) {
                 cb( event );
             }
         }
