@@ -3,6 +3,9 @@
 
 #include <sdl2core/SDL2.h>
 #include <sdl2core/IMG.h>
+
+#include <sdl2class/InputHandler.h>
+
 #include <nlohmann/json.hpp>
 
 namespace mtkaalund {
@@ -10,7 +13,8 @@ namespace mtkaalund {
 class GameState {
 public:
     virtual void init_state() {};
-    virtual void handle_event() {};
+    virtual void register_with_inputhandler( sdl2class::InputHandler& handler ) {};
+    //virtual void handle_event() {};
     virtual void update() {};
     virtual void renderer() {};
 

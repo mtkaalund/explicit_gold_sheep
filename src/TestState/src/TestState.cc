@@ -97,6 +97,61 @@ void TestState::renderer() {
     SDL_RenderPresent( this->p_renderer );
 }
 
+void TestState::register_with_inputhandler( sdl2class::InputHandler& handler ) {
+    handler.register_event(SDL_QUIT, [this](SDL_Event const& event) {
+            std::cout << "Force quit activated" << std::endl;
+            this->state_force_quit = true;
+            this->state_finished = true;
+    });
+
+    handler.register_event(SDL_KEYUP, [this](SDL_Event const& event) {
+        switch( event.key.keysym.sym ) {
+            case SDLK_ESCAPE:
+                std::cout << "Soft quit activated" << std::endl;
+                this->state_finished = true;
+                break;
+            case SDLK_SPACE:
+                    this->red_iterator++;
+                    this->green_iterator++;
+                    this->blue_iterator++;
+                    this->grey_iterator++;
+                    this->yellow_iterator++;
+
+                    if( this->red_iterator == this->sprites["UI_red"].end() ) {
+                        this->red_iterator = this->sprites["UI_red"].begin();
+                    }
+                    if( this->green_iterator == this->sprites["UI_green"].end() ) {
+                        this->green_iterator = this->sprites["UI_green"].begin();
+                    }
+                    if( this->blue_iterator == this->sprites["UI_blue"].end() ) {
+                        this->blue_iterator = this->sprites["UI_blue"].begin();
+                    }
+                    if( this->grey_iterator == this->sprites["UI_grey"].end() ) {
+                        this->grey_iterator = this->sprites["UI_grey"].begin();
+                    }
+                    if( this->yellow_iterator == this->sprites["UI_yellow"].end() ) {
+                        this->yellow_iterator = this->sprites["UI_yellow"].begin();
+                    }
+
+        
+                    this->m_images["UI_red"].set_clip( &this->red_iterator->second );
+                    this->m_images["UI_green"].set_clip( &this->green_iterator->second );
+                    this->m_images["UI_blue"].set_clip( &this->blue_iterator->second );
+                    this->m_images["UI_grey"].set_clip( &this->grey_iterator->second );
+                    this->m_images["UI_yellow"].set_clip( &this->yellow_iterator->second );
+
+                    SDL_Color fb_color = {0x2e, 0x40, 0x53, 0x0f};
+
+                    this->m_img_text["UI_red"].load( m_img_font.RenderText( red_iterator->first, sdl2class::SOLID, &fb_color ) );
+                    this->m_img_text["UI_green"].load( m_img_font.RenderText( green_iterator->first, sdl2class::SOLID, &fb_color ) );
+                    this->m_img_text["UI_blue"].load( m_img_font.RenderText( blue_iterator->first, sdl2class::SOLID, &fb_color ) );
+                    this->m_img_text["UI_grey"].load( m_img_font.RenderText( grey_iterator->first, sdl2class::SOLID, &fb_color ) );
+                    this->m_img_text["UI_yellow"].load( m_img_font.RenderText( yellow_iterator->first, sdl2class::SOLID, &fb_color ) );
+                break;
+        }
+    });
+}
+/*
 void TestState::handle_event() {
     SDL_Event event;
 
@@ -156,7 +211,7 @@ void TestState::handle_event() {
         }
     }
 }
-
+*/
 void TestState::update() {
     //this->m_x_travel += this->m_x_direction;
 

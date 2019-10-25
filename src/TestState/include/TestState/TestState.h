@@ -19,6 +19,7 @@
 
 #include <sdl2class/Font.h>
 #include <sdl2class/Texture.h>
+#include <sdl2class/InputHandler.h>
 
 #include <nlohmann/json.hpp>
 
@@ -47,7 +48,8 @@ namespace mtkaalund {
         public:
             void init_state();
             void renderer();
-            void handle_event();
+            void register_with_inputhandler( sdl2class::InputHandler& handler );
+            //void handle_event();
             void update();
     };
 }

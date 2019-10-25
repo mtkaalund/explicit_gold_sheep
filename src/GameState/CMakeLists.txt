@@ -7,6 +7,7 @@ find_package(SDL2 REQUIRED)
 include_directories(
     ${sdl2core_sdl2}
     ../../json/single_include
+    ${InputHandler_INCLUDE_DIR}
 )
 
 add_library(${PROJECT_NAME} INTERFACE)
