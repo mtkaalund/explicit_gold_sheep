@@ -21,6 +21,7 @@ add_subdirectory(Arguments)
 add_subdirectory(Util)
 add_subdirectory(Texture)
 add_subdirectory(Font)
+add_subdirectory(InputHandler)
 
 add_subdirectory(src/GameState)
 add_subdirectory(src/SplashState)
