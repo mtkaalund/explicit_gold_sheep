@@ -112,11 +112,15 @@ void Texture::set_color( int red, int green, int blue ) {
 
 void Texture::set_clip( SDL_Rect * clip ) {
     this->_clip = clip;
+    this->_rect->w = this->_clip->w;
+    this->_rect->h = this->_clip->h;
 }
 
 void Texture::set_clip( int x, int y, int w, int h ) {
     SDL_Rect tmp_clip = { x, y, w, h };
     this->_clip = &tmp_clip;
+    this->_rect->w = this->_clip->w;
+    this->_rect->h = this->_clip->h;
 }
 
 void Texture::set_point( int x, int y ) {
@@ -133,6 +137,25 @@ void Texture::set_point( SDL_Point point ) {
     }
     this->_rect->x = point.x;
     this->_rect->y = point.y;
+}
+
+void Texture::set_point_to_point( int x0, int y0, int x1, int y1 ) {
+    if( this->_rect == nullptr ) {
+        this->_rect = new SDL_Rect;
+    }
+
+    this->_rect->x = x0;
+    this->_rect->y = y0;
+    if( x0 > x1 )
+        this->_rect->w = x0 - x1;
+    else
+        this->_rect->w = x1 - x0;
+
+    if( y0 > y1 )
+        this->_rect->h = y0 - y1;
+    else
+        this->_rect->h = y1 - y0;
+    std::cout << "_rect = {" << _rect->x << ", " << _rect->y << ", " << _rect->h << ", " << _rect->w << "}" << std::endl;
 }
 
 void Texture::set_rotate( double angle, SDL_Point * center ){
@@ -263,10 +286,10 @@ void Texture::load( SDL_Surface * _surface )
 }
 
 void Texture::renderer() {
-    if( this->_clip != nullptr ) {
-        this->_rect->w = this->_clip->w;
-        this->_rect->h = this->_clip->h;
-    }
+//    if( this->_clip != nullptr ) {
+//        this->_rect->w = this->_clip->w;
+//        this->_rect->h = this->_clip->h;
+//    }
     
     SDL_RenderCopyEx( this->_renderer, this->_texture, this->_clip, this->_rect, this->_angle, this->_center, this->_flip);
 }

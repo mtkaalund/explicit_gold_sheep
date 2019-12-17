@@ -45,6 +45,8 @@ public:
     void set_point( int x, int y );
     void set_point( SDL_Point point );
 
+    void set_point_to_point( int x0, int y0, int x1, int y1 );
+
     void set_rotate( double angle = 0.0, SDL_Point * center = nullptr );
 
     void flip( SDL_RendererFlip flip = SDL_FLIP_NONE );
