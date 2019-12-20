@@ -39,6 +39,12 @@ void TestState::init_state() {
     this->m_images["UI_grey"].set_clip( &grey_iterator->second );
     this->m_images["UI_yellow"].set_clip( &yellow_iterator->second );
 
+    this->m_panel.set_renderer( this->p_renderer );
+    this->m_panel.load( "res/UI/Spritesheet/greySheet.png");
+    grey_iterator = this->sprites["UI_grey"].find("grey_panel.png");
+    this->m_panel.set_clip(&grey_iterator->second);
+    grey_iterator = this->sprites["UI_grey"].begin();
+
     if( this->m_font.load( "res/UI/Font/kenvector_future.ttf", 30) == false ) {
         throw TTFException();
     }
@@ -73,6 +79,9 @@ void TestState::renderer() {
     SDL_RenderClear( this->p_renderer );
     SDL_SetRenderDrawColor( this->p_renderer, 0xf0, 0xf0, 0x0f, 0xff );
 
+    this->m_panel.set_point_to_point( 5, 200, 400, 20 );
+    this->m_panel.renderer();
+
     int index = 50;
     for( auto itr = this->m_images.begin(); itr != this->m_images.end(); ++itr ) {
         itr->second.set_point(this->p_window_width / 2 - itr->second.get_current_width() / 2, index );
@@ -94,6 +103,7 @@ void TestState::renderer() {
 
     this->m_text.set_point( 5, 0 );
     this->m_text.renderer();
+
     SDL_RenderPresent( this->p_renderer );
 }
 
@@ -147,8 +157,38 @@ void TestState::register_with_inputhandler( sdl2class::InputHandler& handler ) {
                     this->m_img_text["UI_blue"].load( m_img_font.RenderText( blue_iterator->first, sdl2class::SOLID, &fb_color ) );
                     this->m_img_text["UI_grey"].load( m_img_font.RenderText( grey_iterator->first, sdl2class::SOLID, &fb_color ) );
                     this->m_img_text["UI_yellow"].load( m_img_font.RenderText( yellow_iterator->first, sdl2class::SOLID, &fb_color ) );
+
                 break;
         }
+    });
+
+    handler.register_event(SDL_MOUSEBUTTONDOWN, [this](SDL_Event const& event) {
+                switch( event.button.button )
+                {
+                    case SDL_BUTTON_LEFT:
+                        std::cout  << "mouse x: " << event.motion.x << " mouse y: " << event.motion.y << std::endl;
+                        SDL_ShowSimpleMessageBox(0, "Mouse", "Left button was pressed!", this->p_window);
+                        break;
+                    case SDL_BUTTON_RIGHT:
+                        std::cout  << "mouse x: " << event.motion.x << " mouse y: " << event.motion.y << std::endl;
+                        SDL_ShowSimpleMessageBox(0, "Mouse", "Right button was pressed!",this->p_window);
+                        break;
+                    default:
+                        SDL_ShowSimpleMessageBox(0, "Mouse", "Some other button was pressed!", this->p_window);
+                        break;
+                }
+    });
+
+    handler.register_event(SDL_MOUSEMOTION, [this](SDL_Event const& event) {
+                        int mouse_x = event.motion.x;
+                        int mouse_y = event.motion.y;
+
+                        std::stringstream str_stream;
+                        str_stream << "x: " << mouse_x << " y: " << mouse_y;
+
+                        std::cout << str_stream.str() << std::endl;
+
+                        SDL_SetWindowTitle( this->p_window, str_stream.str().c_str());
     });
 }
 /*
