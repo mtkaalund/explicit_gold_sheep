@@ -155,7 +155,6 @@ void Texture::set_point_to_point( int x0, int y0, int x1, int y1 ) {
         this->_rect->h = y0 - y1;
     else
         this->_rect->h = y1 - y0;
-    std::cout << "_rect = {" << _rect->x << ", " << _rect->y << ", " << _rect->h << ", " << _rect->w << "}" << std::endl;
 }
 
 void Texture::set_rotate( double angle, SDL_Point * center ){
