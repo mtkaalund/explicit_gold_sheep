@@ -5,6 +5,7 @@
 #include <fstream>
 #include <iostream>
 #include <iomanip>
+#include <sstream>
 #include <string>
 #include <vector>
 #include <utility>
@@ -29,6 +30,7 @@ namespace mtkaalund {
         private:
             std::map<std::string, sdl2class::Texture> m_images;
             sdl2class::Texture      m_text;
+            sdl2class::Texture      m_panel;
 
             std::map<std::string, sdl2class::Texture> m_img_text;
 
