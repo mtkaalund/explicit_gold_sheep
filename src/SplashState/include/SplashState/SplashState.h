@@ -8,6 +8,7 @@
 
 #include <sdl2class/Font.h>
 #include <sdl2class/Texture.h>
+#include <sdl2class/InputHandler.h>
 
 namespace mtkaalund {
     class SplashState : public mtkaalund::GameState {
