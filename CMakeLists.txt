@@ -57,6 +57,7 @@ target_link_libraries( ${PROJECT_NAME}
     ${SDL2_TTF_LIBRARY}
     ${SDL2_MIXER_LIBRARY}
     SDL2_ttf
+    SDL2_mixer
     sdl2core::sdl2
     sdl2core::img
     sdl2core::ttf

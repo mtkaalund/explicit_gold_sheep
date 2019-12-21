@@ -17,6 +17,7 @@
 
 #include <sdl2core/SDL2.h>
 #include <sdl2core/IMG.h>
+#include <sdl2core/MIX.h>
 
 #include <sdl2class/Font.h>
 #include <sdl2class/Texture.h>
@@ -46,6 +47,14 @@ namespace mtkaalund {
             mtkaalund::map_of_rect::iterator grey_iterator;
             mtkaalund::map_of_rect::iterator yellow_iterator;
             std::map<std::string, sdl2class::Texture>::iterator font_iterator;
+
+            Mix_Music   *   background_music;
+            Mix_Chunk   *   click1;
+            Mix_Chunk   *   click2;
+            Mix_Chunk   *   rollover1;
+            Mix_Chunk   *   rollover2;
+            Mix_Chunk   *   switch1;
+            Mix_Chunk   *   switch2;
 
         public:
             void init_state();

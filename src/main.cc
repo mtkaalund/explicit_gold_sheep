@@ -71,10 +71,10 @@ int main( int argc, char * argv[] ) {
     std::cout << "Title Game with state pattern" << std::endl;
 
     try {
-        SDL2 sdl2( SDL_INIT_VIDEO | SDL_INIT_EVENTS );
+        SDL2 sdl2( SDL_INIT_VIDEO | SDL_INIT_EVENTS | SDL_INIT_AUDIO );
         IMG  img( IMG_INIT_PNG | IMG_INIT_JPG );
         TTF  ttf;
-        MIX mix();
+        MIX mix( MIX_INIT_OGG | MIX_INIT_MP3 );
 
         SDL_Window * m_window = nullptr;
         SDL_Renderer * m_renderer = nullptr;
