@@ -15,6 +15,7 @@
 #include <sdl2core/SDL2.h>
 #include <sdl2core/IMG.h>
 #include <sdl2core/TTF.h>
+#include <sdl2core/MIX.h>
 
 #include <sdl2class/InputHandler.h>
 
@@ -73,6 +74,7 @@ int main( int argc, char * argv[] ) {
         SDL2 sdl2( SDL_INIT_VIDEO | SDL_INIT_EVENTS );
         IMG  img( IMG_INIT_PNG | IMG_INIT_JPG );
         TTF  ttf;
+        MIX mix();
 
         SDL_Window * m_window = nullptr;
         SDL_Renderer * m_renderer = nullptr;
@@ -144,6 +146,9 @@ int main( int argc, char * argv[] ) {
         std::cerr << "IMG Error: " << error.what() << std::endl;
     } catch( TTFException &error ) {
         std::cerr << "TTF Error: " << error.what() << std::endl;
+    } catch( MIXException &error ) {
+        std::cerr << "MIX Error: " << error.what() << std::endl;
+        SDL_LogError(SDL_LOG_CATEGORY_ERROR, "MIX Error: %s", error.what() );
     } catch( std::exception &error ) {
         std::cerr << "Generic error: " << error.what() << std::endl;
     }
