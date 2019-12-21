@@ -41,7 +41,7 @@ void TestState::init_state() {
 
     this->m_panel.set_renderer( this->p_renderer );
     this->m_panel.load( "res/UI/Spritesheet/greySheet.png");
-    grey_iterator = this->sprites["UI_grey"].find("grey_panel.png");
+    grey_iterator = this->sprites["UI_grey"].find("grey_box.png");
     this->m_panel.set_clip(&grey_iterator->second);
     grey_iterator = this->sprites["UI_grey"].begin();
 
@@ -72,14 +72,17 @@ void TestState::init_state() {
 
     this->get_window_size();
 
-    std::cout << "Window width: " << p_window_width << " Window Height: " << p_window_height << std::endl;
+    SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Window width: %d height: %d", p_window_width, p_window_height );
+    SDL_SetWindowBordered(this->p_window, SDL_TRUE); // Add border
+    SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Setting window border on");
 }
 
 void TestState::renderer() {
     SDL_RenderClear( this->p_renderer );
     SDL_SetRenderDrawColor( this->p_renderer, 0xf0, 0xf0, 0x0f, 0xff );
 
-    this->m_panel.set_point_to_point( 5, 200, 400, 20 );
+    this->m_panel.set_point( 5, 200 );
+    this->m_panel.scale(0.1);
     this->m_panel.renderer();
 
     int index = 50;
@@ -109,16 +112,62 @@ void TestState::renderer() {
 
 void TestState::register_with_inputhandler( sdl2class::InputHandler& handler ) {
     handler.register_event(SDL_QUIT, [this](SDL_Event const& event) {
-            std::cout << "Force quit activated" << std::endl;
+            SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "Force quit activated");
             this->state_force_quit = true;
             this->state_finished = true;
     });
 
     handler.register_event(SDL_KEYUP, [this](SDL_Event const& event) {
+        SDL_MessageBoxButtonData buttons[] = {
+            { /* .flags .buttonid .text */ 0, 0, "no" },
+            { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "yes" },
+            { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 2, "cancel" },
+        };
+
+
+        SDL_MessageBoxColorScheme colorScheme = {
+            { /* .colors (.r, .g, .b) */
+            /* [SDL_MESSAGEBOX_COLOR_BACKGROUND] */
+            { 25, 4, 50 },
+            /* [SDL_MESSAGEBOX_COLOR_TEXT] */
+            { 0x2e, 0x40, 0x53 },
+            /* [SDL_MESSAGEBOX_COLOR_BUTTON_BORDER ] */
+            { 255, 255, 255 },
+            /* [SDL_MESSAGEBOX_COLOR_BUTTON_BACKGROUND ] */
+            { 40, 30, 20 },
+            /* [SDL_MESSAGEBOX_COLOR_BUTTON_SELECTED ] */
+            { 255, 0, 255 }
+            }
+        };
+
+        SDL_MessageBoxData messageboxdata = {
+            SDL_MESSAGEBOX_INFORMATION,
+            this->p_window, 
+            "An example box",
+            "Select a button\ntemp",
+            SDL_arraysize( buttons ),
+            buttons,
+            &colorScheme
+        };
+
         switch( event.key.keysym.sym ) {
             case SDLK_ESCAPE:
-                std::cout << "Soft quit activated" << std::endl;
+                SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Soft quit activated");
                 this->state_finished = true;
+                break;
+            case SDLK_m:
+                int buttonid;
+                if( SDL_ShowMessageBox( &messageboxdata, &buttonid) < 0) {
+                    SDL_LogError( SDL_LOG_CATEGORY_ERROR, "error displaying message box");
+                    return 1;
+                }
+
+                if(buttonid == -1){
+                    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "No selection");
+                } else {
+                    SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "selection was '%s'", buttons[buttonid].text);
+                }            
+                
                 break;
             case SDLK_SPACE:
                     this->red_iterator++;
@@ -143,7 +192,6 @@ void TestState::register_with_inputhandler( sdl2class::InputHandler& handler ) {
                         this->yellow_iterator = this->sprites["UI_yellow"].begin();
                     }
 
-        
                     this->m_images["UI_red"].set_clip( &this->red_iterator->second );
                     this->m_images["UI_green"].set_clip( &this->green_iterator->second );
                     this->m_images["UI_blue"].set_clip( &this->blue_iterator->second );
@@ -157,7 +205,6 @@ void TestState::register_with_inputhandler( sdl2class::InputHandler& handler ) {
                     this->m_img_text["UI_blue"].load( m_img_font.RenderText( blue_iterator->first, sdl2class::SOLID, &fb_color ) );
                     this->m_img_text["UI_grey"].load( m_img_font.RenderText( grey_iterator->first, sdl2class::SOLID, &fb_color ) );
                     this->m_img_text["UI_yellow"].load( m_img_font.RenderText( yellow_iterator->first, sdl2class::SOLID, &fb_color ) );
-
                 break;
         }
     });
@@ -166,15 +213,13 @@ void TestState::register_with_inputhandler( sdl2class::InputHandler& handler ) {
                 switch( event.button.button )
                 {
                     case SDL_BUTTON_LEFT:
-                        std::cout  << "mouse x: " << event.motion.x << " mouse y: " << event.motion.y << std::endl;
-                        SDL_ShowSimpleMessageBox(0, "Mouse", "Left button was pressed!", this->p_window);
+                        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Mouse", "Left button was pressed!", this->p_window);
                         break;
                     case SDL_BUTTON_RIGHT:
-                        std::cout  << "mouse x: " << event.motion.x << " mouse y: " << event.motion.y << std::endl;
-                        SDL_ShowSimpleMessageBox(0, "Mouse", "Right button was pressed!",this->p_window);
+                        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, "Mouse", "Right button was pressed!",this->p_window);
                         break;
                     default:
-                        SDL_ShowSimpleMessageBox(0, "Mouse", "Some other button was pressed!", this->p_window);
+                        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Mouse", "Some other button was pressed!", this->p_window);
                         break;
                 }
     });
@@ -186,72 +231,10 @@ void TestState::register_with_inputhandler( sdl2class::InputHandler& handler ) {
                         std::stringstream str_stream;
                         str_stream << "x: " << mouse_x << " y: " << mouse_y;
 
-                        std::cout << str_stream.str() << std::endl;
-
                         SDL_SetWindowTitle( this->p_window, str_stream.str().c_str());
     });
 }
-/*
-void TestState::handle_event() {
-    SDL_Event event;
 
-    while( SDL_PollEvent( &event ) ) {
-        switch( event.type ) {
-            case SDL_QUIT:
-                std::cerr << "Force quit activated!" << std::endl;
-                this->state_force_quit = true;
-                this->state_finished = true;
-                break;
-            case SDL_KEYDOWN:
-                switch( event.key.keysym.sym ) {
-                    case SDLK_ESCAPE:
-                        std::cout << "Soft quit activated" << std::endl;
-                        this->state_finished = true; // Soft quit
-                        break;
-                    case SDLK_SPACE:
-                        this->red_iterator++;
-                        this->green_iterator++;
-                        this->blue_iterator++;
-                        this->grey_iterator++;
-                        this->yellow_iterator++;
-
-                        if( this->red_iterator == this->sprites["UI_red"].end() ) {
-                            this->red_iterator = this->sprites["UI_red"].begin();
-                        }
-                        if( this->green_iterator == this->sprites["UI_green"].end() ) {
-                            this->green_iterator = this->sprites["UI_green"].begin();
-                        }
-                        if( this->blue_iterator == this->sprites["UI_blue"].end() ) {
-                            this->blue_iterator = this->sprites["UI_blue"].begin();
-                        }
-                        if( this->grey_iterator == this->sprites["UI_grey"].end() ) {
-                            this->grey_iterator = this->sprites["UI_grey"].begin();
-                        }
-                        if( this->yellow_iterator == this->sprites["UI_yellow"].end() ) {
-                            this->yellow_iterator = this->sprites["UI_yellow"].begin();
-                        }
-
-                        this->m_images["UI_red"].set_clip( &this->red_iterator->second );
-                        this->m_images["UI_green"].set_clip( &this->green_iterator->second );
-                        this->m_images["UI_blue"].set_clip( &this->blue_iterator->second );
-                        this->m_images["UI_grey"].set_clip( &this->grey_iterator->second );
-                        this->m_images["UI_yellow"].set_clip( &this->yellow_iterator->second );
-
-                        SDL_Color fb_color = {0x2e, 0x40, 0x53, 0x0f};
-
-                        this->m_img_text["UI_red"].load( m_img_font.RenderText( red_iterator->first, sdl2class::SOLID, &fb_color ) );
-                        this->m_img_text["UI_green"].load( m_img_font.RenderText( green_iterator->first, sdl2class::SOLID, &fb_color ) );
-                        this->m_img_text["UI_blue"].load( m_img_font.RenderText( blue_iterator->first, sdl2class::SOLID, &fb_color ) );
-                        this->m_img_text["UI_grey"].load( m_img_font.RenderText( grey_iterator->first, sdl2class::SOLID, &fb_color ) );
-                        this->m_img_text["UI_yellow"].load( m_img_font.RenderText( yellow_iterator->first, sdl2class::SOLID, &fb_color ) );
-
-                        break;
-                }
-                break;
-        }
-    }
-}
-*/
 void TestState::update() {
     //this->m_x_travel += this->m_x_direction;
 
