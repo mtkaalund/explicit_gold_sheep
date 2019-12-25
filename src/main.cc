@@ -74,7 +74,7 @@ int main( int argc, char * argv[] ) {
         SDL2 sdl2( SDL_INIT_VIDEO | SDL_INIT_EVENTS | SDL_INIT_AUDIO );
         IMG  img( IMG_INIT_PNG | IMG_INIT_JPG );
         TTF  ttf;
-        MIX mix( MIX_INIT_MP3 | MIX_INIT_OGG );
+//        MIX mix( MIX_INIT_MP3 | MIX_INIT_OGG );
 
         SDL_Window * m_window = nullptr;
         SDL_Renderer * m_renderer = nullptr;
