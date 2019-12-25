@@ -150,11 +150,14 @@ void TestState::register_with_inputhandler( sdl2class::InputHandler& handler ) {
             &colorScheme
         };
 
+        std::cout << "Event.key.keysym.sym: " << event.key.keysym.sym << std::endl;
+
         switch( event.key.keysym.sym ) {
             case SDLK_ESCAPE:
                 SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Soft quit activated");
                 this->state_finished = true;
                 break;
+
             case SDLK_m:
                 int buttonid;
                 if( SDL_ShowMessageBox( &messageboxdata, &buttonid) < 0) {
@@ -205,6 +208,7 @@ void TestState::register_with_inputhandler( sdl2class::InputHandler& handler ) {
                     this->m_img_text["UI_blue"].load( m_img_font.RenderText( blue_iterator->first, sdl2class::SOLID, &fb_color ) );
                     this->m_img_text["UI_grey"].load( m_img_font.RenderText( grey_iterator->first, sdl2class::SOLID, &fb_color ) );
                     this->m_img_text["UI_yellow"].load( m_img_font.RenderText( yellow_iterator->first, sdl2class::SOLID, &fb_color ) );
+
                 break;
         }
     });
