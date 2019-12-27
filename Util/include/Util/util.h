@@ -38,12 +38,36 @@ map_of_rect load_from_json( std::string filename );
 
 // From https://thispointer.com/c-list-find-contains-how-to-search-an-element-in-stdlist/
 template<typename T>
+bool contains( const std::list<T> & listOfElements, const T & element )
+{
+    //Find the iterator if element in list
+    auto it = std::find( listOfElements.begin(), listOfElements.end(), element );
+    // Return if iterator points to end or not. It points to end the it means the element
+    // does not exists in list
+    return it != listOfElements.end();
+}
+
+template<typename T>
 bool contains( std::list<T> & listOfElements, const T & element )
 {
     //Find the iterator if element in list
     auto it = std::find( listOfElements.begin(), listOfElements.end(), element );
     // Return if iterator points to end or not. It points to end the it means the element
     // does not exists in list
+    return it != listOfElements.end();
+}
+
+template<typename T>
+bool contains( const std::vector<T> & listOfElements, const T &element )
+{
+    auto it = std::find( listOfElements.begin(), listOfElements.end(), element );
+    return it != listOfElements.end();
+}
+
+template<typename T>
+bool contains( std::vector<T> & listOfElements, const T &element )
+{
+    auto it = std::find( listOfElements.begin(), listOfElements.end(), element );
     return it != listOfElements.end();
 }
 
