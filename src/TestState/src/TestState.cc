@@ -150,7 +150,7 @@ void TestState::register_with_inputhandler( sdl2class::InputHandler& handler ) {
             &colorScheme
         };
 
-        std::cout << "Event.key.keysym.sym: " << event.key.keysym.sym << std::endl;
+//        std::cout << "Event.key.keysym.sym: " << event.key.keysym.sym << std::endl;
 
         switch( event.key.keysym.sym ) {
             case SDLK_ESCAPE:
