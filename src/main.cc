@@ -25,8 +25,20 @@
 #include <TestState/TestState.h>
 #include <Arguments/Arguments.h>
 
+#include <ResourceHandler/ResourceHandler.h>
+
 int main( int argc, char * argv[] ) {
     Arguments argument;
+    mtkaalund::ResourceHandler * res_handler = new mtkaalund::ResourceHandler;
+
+    res_handler->get_resource_tree( "res/");
+    res_handler->print_resource();
+
+    std::vector<fs::path> image = (*res_handler)[mtkaalund::IMAGE];
+    for( auto item : image )
+    {
+        std::cout << item.c_str() << std::endl;
+    }
 
     nlohmann::json arg_cfg, config, env;
 
@@ -127,6 +139,8 @@ int main( int argc, char * argv[] ) {
 
                 state->update();
                 state->renderer();
+
+                state->state_finished = true;
             }
 
             config = state->config;

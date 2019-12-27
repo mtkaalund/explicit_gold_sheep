@@ -24,6 +24,7 @@ add_subdirectory(Util)
 add_subdirectory(Texture)
 add_subdirectory(Font)
 add_subdirectory(InputHandler)
+add_subdirectory(ResourceHandler)
 
 add_subdirectory(src/GameState)
 add_subdirectory(src/SplashState)
@@ -44,6 +45,7 @@ include_directories(
     ${SplashState}
     ${TestState}
     ${InputHandler}
+    ${ResourceHandler}
 )
 
 #Setting C++ standard to C++17
@@ -71,6 +73,8 @@ target_link_libraries( ${PROJECT_NAME}
     GameState
     SplashState
     TestState
+    ResourceHandler
+    -lstdc++fs
 )
 
 file(GLOB images
