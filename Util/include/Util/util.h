@@ -36,6 +36,7 @@ typedef std::map<std::string, SDL_Rect> map_of_rect;
 
 map_of_rect load_from_json( std::string filename );
 
+// From https://thispointer.com/c-list-find-contains-how-to-search-an-element-in-stdlist/
 template<typename T>
 bool contains( std::list<T> & listOfElements, const T & element )
 {
