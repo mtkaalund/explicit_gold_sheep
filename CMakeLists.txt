@@ -23,6 +23,7 @@ add_subdirectory(Arguments)
 add_subdirectory(Util)
 add_subdirectory(Texture)
 add_subdirectory(Font)
+add_subdirectory(FileSystem)
 add_subdirectory(InputHandler)
 add_subdirectory(ResourceHandler)
 
@@ -48,6 +49,7 @@ include_directories(
     ${TileState}
     ${InputHandler}
     ${ResourceHandler}
+    ${FileSystem}
 )
 
 #Setting C++ standard to C++17
@@ -77,6 +79,7 @@ target_link_libraries( ${PROJECT_NAME}
     TestState
     TileState
     ResourceHandler
+    FileSystem
     -lstdc++fs
 )
 
