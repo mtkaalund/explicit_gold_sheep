@@ -29,6 +29,7 @@ add_subdirectory(ResourceHandler)
 add_subdirectory(src/GameState)
 add_subdirectory(src/SplashState)
 add_subdirectory(src/TestState)
+add_subdirectory(src/TileState)
 
 include_directories(
     SYSTEM
@@ -44,6 +45,7 @@ include_directories(
     ${GameState}
     ${SplashState}
     ${TestState}
+    ${TileState}
     ${InputHandler}
     ${ResourceHandler}
 )
@@ -73,6 +75,7 @@ target_link_libraries( ${PROJECT_NAME}
     GameState
     SplashState
     TestState
+    TileState
     ResourceHandler
     -lstdc++fs
 )
