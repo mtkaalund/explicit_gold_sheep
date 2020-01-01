@@ -13,6 +13,8 @@
 #include <sdl2class/Texture.h>
 #include <sdl2class/InputHandler.h>
 
+#include <mtkaalund/FileSystem.h>
+
 namespace mtkaalund {
 
     const int tile_width = 132;

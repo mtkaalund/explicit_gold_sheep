@@ -104,22 +104,22 @@ void TileState::renderer() {
     SDL_SetRenderDrawColor( this->p_renderer, 0x00, 0x00, 0x00, 0xff );
     SDL_RenderDrawRect( this->p_renderer, &this->camera_rect );
 
-    std::cout << "this->camera_rect: \n\tx: " << this->camera_rect.x 
-              << "\n\ty: " << this->camera_rect.y
-              << "\n\tw: " << this->camera_rect.w
-              << "\n\th: " << this->camera_rect.h 
-              << "\n\tBegin at \n\t\ttile x: " << this->camera_rect.x / mtkaalund::tile_width 
-              << "\n\t\ttile y: " << this->camera_rect.y / mtkaalund::tile_height
-              << "\n\tEnding at \n\t\ttile x: " << (this->camera_rect.x + this->camera_rect.w ) / mtkaalund::tile_width
-              << "\n\t\ttile y: " << (this->camera_rect.y + this->camera_rect.h) / mtkaalund::tile_height
-              << "\n\t\ttile map has: ";
-    for( int x = this->camera_rect.x / mtkaalund::tile_width; x < (this->camera_rect.x + this->camera_rect.w ) / mtkaalund::tile_width; x++ ) {
-        std::cout << "\n";
-        for( int y = this->camera_rect.y / mtkaalund::tile_height; y < (this->camera_rect.y + this->camera_rect.h) / mtkaalund::tile_height; y++ ) {
-            std::cout << "\t{" << x << "," << y << "} : " << this->m_map_tile[x][y];
-        }
-    }
-    std::cout << std::endl;
+//    std::cout << "this->camera_rect: \n\tx: " << this->camera_rect.x 
+//              << "\n\ty: " << this->camera_rect.y
+//              << "\n\tw: " << this->camera_rect.w
+//              << "\n\th: " << this->camera_rect.h 
+//              << "\n\tBegin at \n\t\ttile x: " << this->camera_rect.x / mtkaalund::tile_width 
+//              << "\n\t\ttile y: " << this->camera_rect.y / mtkaalund::tile_height
+//              << "\n\tEnding at \n\t\ttile x: " << (this->camera_rect.x + this->camera_rect.w ) / mtkaalund::tile_width
+//              << "\n\t\ttile y: " << (this->camera_rect.y + this->camera_rect.h) / mtkaalund::tile_height
+//              << "\n\t\ttile map has: ";
+//    for( int x = this->camera_rect.x / mtkaalund::tile_width; x < (this->camera_rect.x + this->camera_rect.w ) / mtkaalund::tile_width; x++ ) {
+//        std::cout << "\n";
+//        for( int y = this->camera_rect.y / mtkaalund::tile_height; y < (this->camera_rect.y + this->camera_rect.h) / mtkaalund::tile_height; y++ ) {
+//            std::cout << "\t{" << x << "," << y << "} : " << this->m_map_tile[x][y];
+//        }
+//    }
+//    std::cout << std::endl;
 
     for( int x = this->camera_rect.x / mtkaalund::tile_width; x <= (this->camera_rect.x + this->camera_rect.w ) / mtkaalund::tile_width; x++ ) {
         for( int y = this->camera_rect.y / mtkaalund::tile_height; y <= (this->camera_rect.y + this->camera_rect.h) / mtkaalund::tile_height; y++ ) {
@@ -233,6 +233,11 @@ void TileState::load_landscape()
     this->landscape_count = 0;
     // First read res directory
     // load the    
+    auto read_path = mtkaalund::FileSystem::read_files_in_path("res/images/PNG/");
+
+    for( auto entry : read_path ) {
+        std::cout << entry.c_str() << std::endl;
+    }
 }
 
 }

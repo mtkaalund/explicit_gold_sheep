@@ -11,6 +11,7 @@ include_directories(
     ${Texture_INCLUDE_DIR}
     ${Font_INCLUDE_DIR}
     ${InputHandler_INCLUDE_DIR}
+    ${FileSystem_INCLUDE_DIR}
 )
 
 add_library(${PROJECT_NAME} src/${PROJECT_NAME}.cc)
@@ -29,4 +30,5 @@ target_link_libraries( ${PROJECT_NAME}
     Texture
     Font
     InputHandler
+    FileSystem
 )
