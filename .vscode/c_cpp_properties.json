@@ -9,7 +9,10 @@
                 "${workspaceFolder}/sdl2core/sdl2core_net/include/sdl2core/*",
                 "${workspaceFolder}/sdl2core/sdl2core_ttf/include/sdl2core/*",
                 "${workspaceFolder}/sdl2core/sdl2core_mix/include/sdl2core/*",
-                "${workspaceFolder}/src/GameState/include/*"
+                "${workspaceFolder}/src/GameState/include/*",
+                "${workspaceFolder}/src/SplashState/include/*",
+                "${workspaceFolder}/src/TestState/include/*",
+                "${workspaceFolder}/src/TileState/include/*"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
