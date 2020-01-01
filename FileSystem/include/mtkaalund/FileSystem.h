@@ -17,7 +17,7 @@ namespace fs = std::experimental::filesystem;
 
 namespace mtkaalund {
     namespace FileSystem {
-//!
+//! \fn std::vector<std::filesystem::path> read_files_in_path( const std::filesystem::path& path, int level = 0 )
 //! This will return all files in the path, and subdirectories. But it will not contain the directories.
 //! @param path Giv the start path, for reading the path.
 //! @param level Starts at 0, but will increment as it goes in the subdirectories.
