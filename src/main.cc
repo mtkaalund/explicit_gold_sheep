@@ -30,16 +30,16 @@
 
 int main( int argc, char * argv[] ) {
     Arguments argument;
-    mtkaalund::ResourceHandler * res_handler = new mtkaalund::ResourceHandler;
+//    mtkaalund::ResourceHandler * res_handler = new mtkaalund::ResourceHandler;
 
-    res_handler->get_resource_tree( "res/");
-    res_handler->print_resource();
+//    res_handler->get_resource_tree( "res/");
+//    res_handler->print_resource();
 
-    std::vector<fs::path> image = (*res_handler)[mtkaalund::IMAGE];
-    for( auto item : image )
-    {
-        std::cout << item.c_str() << std::endl;
-    }
+//    std::vector<fs::path> image = (*res_handler)[mtkaalund::IMAGE];
+//    for( auto item : image )
+//    {
+//        std::cout << item.c_str() << std::endl;
+//    }
 
     nlohmann::json arg_cfg, config, env;
 
