@@ -23,6 +23,7 @@
 #include <GameState.h>
 #include <SplashState/SplashState.h>
 #include <TestState/TestState.h>
+#include <TileState/TileState.h>
 #include <Arguments/Arguments.h>
 
 #include <ResourceHandler/ResourceHandler.h>
@@ -100,8 +101,9 @@ int main( int argc, char * argv[] ) {
 
         std::list<mtkaalund::GameState *> game_states;
 
-        game_states.push_back( new mtkaalund::SplashState() );
-        game_states.push_back( new mtkaalund::TestState() );
+        game_states.push_back( new mtkaalund::TileState() );
+//        game_states.push_back( new mtkaalund::SplashState() );
+//        game_states.push_back( new mtkaalund::TestState() );
 
         m_window = SDL_CreateWindow( "TileGame", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_BORDERLESS | SDL_WINDOW_SHOWN );
 
@@ -140,7 +142,7 @@ int main( int argc, char * argv[] ) {
                 state->update();
                 state->renderer();
 
-                state->state_finished = true;
+//                state->state_finished = true;
             }
 
             config = state->config;
