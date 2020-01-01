@@ -2,7 +2,7 @@
 
 namespace mtkaalund {
     namespace FileSystem {
-std::vector<fs::path> read_files_in_path( const fs::path& path, int level = 0 )
+std::vector<fs::path> read_files_in_path( const fs::path& path, int level )
 {
     std::vector<fs::path> tmp;
     if( fs::exists( path ) && fs::is_directory( path ) )
