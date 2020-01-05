@@ -59,8 +59,8 @@ void TileState::init_state() {
     this->m_text.set_renderer( this->p_renderer );
     this->m_text.load( tmp );
 
-    this->m_tile_num.set_renderer( this->p_renderer );
-    this->m_num_of.set_renderer( this->p_renderer );
+//    this->m_tile_num.set_renderer( this->p_renderer );
+//    this->m_num_of.set_renderer( this->p_renderer );
 
     //#2E4053
     SDL_Surface * tmp2 = this->m_screenFont.RenderText("testing", sdl2class::SOLID, &this->fb_color);
@@ -81,6 +81,11 @@ void TileState::init_state() {
     this->camera_rect.w = this->p_window_width;
     this->camera_rect.h = this->p_window_height - 30 - 53;
 
+    this->view_rect.x   = 0;
+    this->view_rect.y   = 30;
+    this->view_rect.w   = ( this->p_window_width / mtkaalund::tile_width ) * mtkaalund::tile_width;
+    this->view_rect.h   = ( ( this->p_window_height - 30 - 53 ) / mtkaalund::tile_height ) * mtkaalund::tile_height;
+
     for( int i = 0; i < mtkaalund::tile_map_width / mtkaalund::tile_width; i++)
     {
         for(int j = 0; j < mtkaalund::tile_map_height / mtkaalund::tile_height; j++ ) 
@@ -89,6 +94,7 @@ void TileState::init_state() {
         }
     }
 
+    std::cout << "view:\n\tx: " << this->view_rect.x << "\n\ty: " << this->view_rect.y << "\n\tw: " << this->view_rect.w << "\n\th: " << this->view_rect.h << std::endl;
     std::cout << "Window width: " << p_window_width << " Window Height: " << p_window_height << std::endl;
 }
 
@@ -96,61 +102,75 @@ void TileState::renderer() {
     SDL_SetRenderDrawColor( this->p_renderer, 0xff, 0xff, 0xff, 0xff );
     SDL_RenderClear( this->p_renderer );
 
-    SDL_SetRenderDrawColor( this->p_renderer, 0xff, 0x00, 0x00, 0xff );    
-    for( int i = 0; i <= this->p_window_width; i += mtkaalund::tile_width ){
-        SDL_RenderDrawLine( this->p_renderer, i, 0, i, this->p_window_height);
-    }
-
-    SDL_SetRenderDrawColor( this->p_renderer, 0x00, 0x00, 0x00, 0xff );
-    SDL_RenderDrawRect( this->p_renderer, &this->camera_rect );
-
-//    std::cout << "this->camera_rect: \n\tx: " << this->camera_rect.x 
-//              << "\n\ty: " << this->camera_rect.y
-//              << "\n\tw: " << this->camera_rect.w
-//              << "\n\th: " << this->camera_rect.h 
-//              << "\n\tBegin at \n\t\ttile x: " << this->camera_rect.x / mtkaalund::tile_width 
-//              << "\n\t\ttile y: " << this->camera_rect.y / mtkaalund::tile_height
-//              << "\n\tEnding at \n\t\ttile x: " << (this->camera_rect.x + this->camera_rect.w ) / mtkaalund::tile_width
-//              << "\n\t\ttile y: " << (this->camera_rect.y + this->camera_rect.h) / mtkaalund::tile_height
-//              << "\n\t\ttile map has: ";
-//    for( int x = this->camera_rect.x / mtkaalund::tile_width; x < (this->camera_rect.x + this->camera_rect.w ) / mtkaalund::tile_width; x++ ) {
-//        std::cout << "\n";
-//        for( int y = this->camera_rect.y / mtkaalund::tile_height; y < (this->camera_rect.y + this->camera_rect.h) / mtkaalund::tile_height; y++ ) {
-//            std::cout << "\t{" << x << "," << y << "} : " << this->m_map_tile[x][y];
-//        }
+//    SDL_SetRenderDrawColor( this->p_renderer, 0xff, 0x00, 0x00, 0xff );    
+//    for( int i = this->view_rect.x; i <= this->view_rect.w; i += mtkaalund::tile_width ){
+//        SDL_RenderDrawLine( this->p_renderer, i, 30, i, this->view_rect.h + this->view_rect.y);
 //    }
-//    std::cout << std::endl;
+
+//    SDL_SetRenderDrawColor( this->p_renderer, 0x00, 0x00, 0xff, 0xff );
+//    for( int i = this->view_rect.y; i <= this->view_rect.h+this->view_rect.y; i += mtkaalund::tile_height ){
+//        SDL_RenderDrawLine( this->p_renderer, 0, i, this->view_rect.w, i);
+//    }
 
     for( int x = this->camera_rect.x / mtkaalund::tile_width; x <= (this->camera_rect.x + this->camera_rect.w ) / mtkaalund::tile_width; x++ ) {
         for( int y = this->camera_rect.y / mtkaalund::tile_height; y <= (this->camera_rect.y + this->camera_rect.h) / mtkaalund::tile_height; y++ ) {
                 int min_x = this->camera_rect.x / mtkaalund::tile_width;
                 int min_y = this->camera_rect.y / mtkaalund::tile_height;
 
-                std::string test = "[" + std::to_string( x ) + "][" + std::to_string( y ) + "]";
-                SDL_Surface * test_surface = this->m_tile_font.RenderText(test, sdl2class::SOLID, &this->fb_color );
-                this->m_num_of.load( test_surface );
-                this->m_num_of.set_point( (x - min_x) * mtkaalund::tile_width, (y - min_y)*mtkaalund::tile_height );
-                this->m_num_of.renderer();
+                int iso_x = ( x - y ) * mtkaalund::tile_width_half;
+                int iso_y = ( x + y ) * mtkaalund::tile_height_half;
 
-                std::string number = std::to_string( this->m_map_tile[x][y]);
-                SDL_Surface * map_example = this->m_tile_font.RenderText(number, sdl2class::SOLID, &this->fb_color);
+                SDL_Point screen_point = this->map_to_screen( { x , y } );
+                SDL_Point pixel_point = this->screen_to_map( { screen_point.x, screen_point.y } );
 
-                this->m_tile_num.load(map_example);
-                this->m_tile_num.set_point( ((x - min_x)*mtkaalund::tile_width) + mtkaalund::tile_width/2 - this->m_tile_num.get_current_width()/2, (((y - min_y) * mtkaalund::tile_height)+30) + mtkaalund::tile_height/2 - this->m_tile_num.get_current_height()/2) ;
-                this->m_tile_num.renderer();
+//                std::cout << "screen_point: "
+//                          << "\n x: " << screen_point.x
+//                          << "\n y: " << screen_point.y
+//                          << std::endl;
+//                std::cout << "pixel_point: "
+//                          << "\n x: " << pixel_point.x
+//                          << "\n y: " << pixel_point.y
+//                          << std::endl;
 
-                SDL_FreeSurface( map_example );
+
+ //               std::cout << "camera_rect = {\n" 
+//                          << "\tx: " << camera_rect.x
+//                          << "\ty: " << camera_rect.y
+//                          << "\tw: " << camera_rect.w
+//                          << "\th: " << camera_rect.h 
+//                          << std::endl;
+
+//                std::cout << "min_x: " << min_x << std::endl;
+//                std::cout << "min_y: " << min_y << std::endl;
+
+                if( ( ( (x - min_x) >= view_rect.x/mtkaalund::tile_width ) && ( (x - min_x) < view_rect.w/mtkaalund::tile_width ) ) && ( (y-min_y) >= view_rect.y/mtkaalund::tile_height ) && ( (y-min_y) < view_rect.h/mtkaalund::tile_height ) )
+                {
+//                    std::string test = "[" + std::to_string( x ) + "][" + std::to_string( y ) + "]";
+//                    SDL_Surface * test_surface = this->m_tile_font.RenderText(test, sdl2class::SOLID, &this->fb_color );
+//                    this->m_num_of.load( test_surface );
+//                    this->m_num_of.set_point( (x - min_x) * mtkaalund::tile_width, (y - min_y)*mtkaalund::tile_height + 30 );
+//                    this->m_num_of.renderer();
+
+//                    std::string number = std::to_string( this->m_map_tile[x][y]);
+//                    SDL_Surface * map_example = this->m_tile_font.RenderText(number, sdl2class::SOLID, &this->fb_color);
+
+//                    this->m_tile_num.load(map_example);
+//                    this->m_tile_num.set_point( ((x - min_x)*mtkaalund::tile_width) + mtkaalund::tile_width/2 - this->m_tile_num.get_current_width()/2, (((y - min_y) * mtkaalund::tile_height)+30) + mtkaalund::tile_height/2 - this->m_tile_num.get_current_height()/2) ;
+//                    this->m_tile_num.renderer();
+
+//                    this->landscapes[ this->m_map_tile[x][y] ]->set_point( (x - min_x) * mtkaalund::tile_width, (y - min_y)*mtkaalund::tile_height + 30 );
+                    this->landscapes[ this->m_map_tile[x][y] ]->set_point( screen_point );
+                    this->landscapes[ this->m_map_tile[x][y] ]->renderer();
+
+//                    SDL_FreeSurface( map_example );                    
+                }
         }
     }
 
-    SDL_SetRenderDrawColor( this->p_renderer, 0x00, 0x00, 0xff, 0xff );
-    for( int i = 30; i <= this->p_window_height - 53; i += mtkaalund::tile_height ){
-        SDL_RenderDrawLine( this->p_renderer, 0, i, this->p_window_width, i);
-    }
 
     SDL_SetRenderDrawColor( this->p_renderer, 0xcf, 0xfc, 0xcc, 0xff );
     SDL_Rect bottom_fillRect = {
-        0, this->p_window_height - 53,
+        0, this->p_window_height - 74,//60,//53,
         this->p_window_width, this->p_window_height
     };
     SDL_RenderFillRect(this->p_renderer, &bottom_fillRect);
@@ -206,21 +226,43 @@ void TileState::register_with_inputhandler( sdl2class::InputHandler& handler ) {
                 break;
         }
     });
-//    handler.register_event( SDL_MOUSEMOTION, [this]( SDL_Event const& event){
-//        std::cout << "Mouse motion to tile ( " << event.motion.x / mtkaalund::tile_width << ", " << ((event.motion.y-30)/mtkaalund::tile_height) << ")" << std::endl;
-//    });
+    handler.register_event( SDL_MOUSEMOTION, [this]( SDL_Event const& event){
+        int mouse_tile_x = event.motion.x / mtkaalund::tile_width;
+        int mouse_tile_y = ( event.motion.y - 30 - 53 ) / mtkaalund::tile_height;
+//        std::cout << "Mouse motion:\n"
+//                  << "\t(x,y) : (" << event.motion.x << "," << event.motion.y << ")\n"
+//                  << "\t(tx1,ty1) : (" << mouse_tile_x << "," << mouse_tile_y << ")\n";
+
+    });
     handler.register_event( SDL_MOUSEBUTTONDOWN, [this]( SDL_Event const& event){
         int mouse_x, mouse_y;
         SDL_GetMouseState( &mouse_x, &mouse_y );
 
-        int mouse_tile_x = ( mouse_x + this->camera_rect.x )/ mtkaalund::tile_width;
-        int mouse_tile_y = ( mouse_y - 30 + this->camera_rect.y ) / mtkaalund::tile_height;
+        SDL_Point pixel_to_tile = screen_to_map( { mouse_x+this->camera_rect.x, mouse_y+this->camera_rect.y-30} ); 
 
-        std::cout << "Mouse Button Down (" << mouse_x << ", " << mouse_y << ") -> (" 
-                  << mouse_tile_x << ", " << mouse_tile_y << ")" << std::endl;
-        this->m_map_tile[mouse_tile_x][mouse_tile_y]++;
-        std::cout << "map_tile[" << mouse_tile_x << "][" << mouse_tile_y << "] = " 
-                  << this->m_map_tile[mouse_tile_x][mouse_tile_y] << std::endl;
+        int min_tile_x = this->camera_rect.x / mtkaalund::tile_width;
+        int min_tile_y = this->camera_rect.y / mtkaalund::tile_height;
+        int max_tile_x = ( this->camera_rect.x + this->camera_rect.w ) / mtkaalund::tile_width;
+        int max_tile_y = ( this->camera_rect.y + this->camera_rect.h - 30 ) / mtkaalund::tile_height;
+        int tile_x     = ((mouse_x/mtkaalund::tile_width)*mtkaalund::tile_width + this->camera_rect.x)/mtkaalund::tile_width;
+        int tile_y     = (((mouse_y - 30)/mtkaalund::tile_height)*mtkaalund::tile_height + this->camera_rect.y)/mtkaalund::tile_height;
+
+        std::cout << "Mouse Button: " 
+                  << "\n\ttile_x: " << tile_x
+                  << "\n\ttile_y: " << tile_y
+                  << "\n\tpixel_to_tile.x: " << pixel_to_tile.x
+                  << "\n\tpixel_to_tile.y: " << pixel_to_tile.y
+                  << std::endl;
+        tile_y = pixel_to_tile.y;
+        tile_x = pixel_to_tile.x;
+//        if( ( (tile_x >= min_tile_x) && (tile_x < max_tile_x) ) && ( ( tile_y >= min_tile_y ) && ( tile_y < max_tile_y ) ) )
+//        {
+            this->m_map_tile[tile_x][tile_y]++;
+            if( this->m_map_tile[tile_x][tile_y] >= this->landscapes.size() ) 
+            {
+                this->m_map_tile[tile_x][tile_y] = 0;
+            }
+//        }
     });
 }
 
@@ -230,14 +272,36 @@ void TileState::update() {
 
 void TileState::load_landscape()
 {
-    this->landscape_count = 0;
-    // First read res directory
-    // load the    
     auto read_path = mtkaalund::FileSystem::read_files_in_path("res/images/PNG/");
 
     for( auto entry : read_path ) {
-        std::cout << entry.c_str() << std::endl;
+        if( entry.extension() == ".png" ) {
+            std::shared_ptr<sdl2class::Texture> tmp = std::make_shared<sdl2class::Texture>();
+            tmp->set_renderer( this->p_renderer );
+            tmp->load( entry.c_str() );
+            this->landscapes.push_back( tmp );
+        }
     }
+}
+
+SDL_Point TileState::map_to_screen( SDL_Point map_coordinates )
+{
+    SDL_Point tmp;
+
+    tmp.x = ( map_coordinates.x - map_coordinates.y ) * mtkaalund::tile_width_half;
+    tmp.y = ( map_coordinates.x + map_coordinates.y ) * mtkaalund::tile_height_half;
+
+    return tmp;
+}
+
+SDL_Point TileState::screen_to_map( SDL_Point screen_pixels )
+{
+    SDL_Point tmp;
+
+    tmp.x = ( screen_pixels.x / mtkaalund::tile_width_half + screen_pixels.y / mtkaalund::tile_height_half ) / 2;
+    tmp.y = ( screen_pixels.y / mtkaalund::tile_height_half - screen_pixels.x / mtkaalund::tile_width_half ) / 2;
+
+    return tmp;
 }
 
 }
