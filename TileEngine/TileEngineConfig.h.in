@@ -1,0 +1,4 @@
+// The configured options for TileEngine
+#define TileEngineVersionMajor @TileEngine_VERSION_MAJOR@
+#define TileEngineVersionMinor @TileEngine_VERSION_MINOR@
+#define TileEngineVersionPatch @TileEngine_VERSION_PATCH@
