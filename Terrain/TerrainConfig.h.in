@@ -1,0 +1,4 @@
+// The configured options for Terrain
+#define TerrainVersionMajor @Terrain_VERSION_MAJOR@
+#define TerrainVersionMinor @Terrain_VERSION_MINOR@
+#define TerrainVersionPatch @Terrain_VERSION_PATCH@
