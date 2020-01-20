@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 
 project(explicit_gold_sheep VERSION 1.0.1 LANGUAGES CXX)
 
@@ -16,7 +16,7 @@ find_package(SDL2_mixer REQUIRED)
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 add_subdirectory(json)
 ## Documentations
-add_subdirectory(docs)
+#add_subdirectory(docs)
 ## Internal projects
 add_subdirectory(sdl2core)
 add_subdirectory(Arguments)
@@ -26,6 +26,9 @@ add_subdirectory(Font)
 add_subdirectory(FileSystem)
 add_subdirectory(InputHandler)
 add_subdirectory(ResourceHandler)
+
+add_subdirectory(Terrain)
+add_subdirectory(TileEngine)
 
 add_subdirectory(src/GameState)
 add_subdirectory(src/SplashState)
@@ -54,6 +57,7 @@ include_directories(
 
 #Setting C++ standard to C++17
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 add_executable(${PROJECT_NAME} src/main.cc)
 
