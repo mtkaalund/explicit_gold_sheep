@@ -123,6 +123,10 @@ void TileState::renderer() {
                 SDL_Point screen_point = this->map_to_screen( { x , y } );
                 SDL_Point pixel_point = this->screen_to_map( { screen_point.x, screen_point.y } );
 
+                SDL_Point tmp_iso = this->Cartesian_to_Isometric({x,y});
+                std::cout << "New implementation of isometric: { " << tmp_iso.x << " , " << tmp_iso.y  << "} ";
+                std::cout << "Old: { " << pixel_point.x << " , " << pixel_point.y << " } " << std::endl;
+
 //                std::cout << "screen_point: "
 //                          << "\n x: " << screen_point.x
 //                          << "\n y: " << screen_point.y
@@ -301,6 +305,22 @@ SDL_Point TileState::screen_to_map( SDL_Point screen_pixels )
     tmp.x = ( screen_pixels.x / mtkaalund::tile_width_half + screen_pixels.y / mtkaalund::tile_height_half ) / 2;
     tmp.y = ( screen_pixels.y / mtkaalund::tile_height_half - screen_pixels.x / mtkaalund::tile_width_half ) / 2;
 
+    return tmp;
+}
+
+SDL_Point TileState::Cartesian_to_Isometric( SDL_Point cartesian )
+{
+    SDL_Point tmp;
+    tmp.x = cartesian.x - cartesian.y;
+    tmp.y = ( cartesian.x + cartesian.y ) / 2;
+    return tmp;
+}
+
+SDL_Point TileState::Isometric_to_Cartesian( SDL_Point isometric )
+{
+    SDL_Point tmp;
+    tmp.x = (2 * isometric.y + isometric.x ) / 2;
+    tmp.y = (2 * isometric.y - isometric.x ) / 2;
     return tmp;
 }
 

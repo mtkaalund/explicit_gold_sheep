@@ -16,6 +16,9 @@
 
 #include <mtkaalund/FileSystem.h>
 
+#include <GameObject/Terrain.h>
+#include <GameObject/TileEngine.h>
+
 namespace mtkaalund {
 
     const int tile_width = 132;
@@ -55,6 +58,8 @@ namespace mtkaalund {
             void load_landscape();
             SDL_Point map_to_screen( SDL_Point map_coordinates );
             SDL_Point screen_to_map( SDL_Point screen_pixels );
+            SDL_Point Cartesian_to_Isometric( SDL_Point cartesian );
+            SDL_Point Isometric_to_Cartesian( SDL_Point isometric );
     };
 }
 

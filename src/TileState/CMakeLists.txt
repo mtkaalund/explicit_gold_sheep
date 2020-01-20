@@ -12,6 +12,8 @@ include_directories(
     ${Font_INCLUDE_DIR}
     ${InputHandler_INCLUDE_DIR}
     ${FileSystem_INCLUDE_DIR}
+    ${Terrain_INCLUDE_DIR}
+    ${TileEngine_INCLUDE_DIR}
 )
 
 add_library(${PROJECT_NAME} src/${PROJECT_NAME}.cc)
@@ -31,4 +33,6 @@ target_link_libraries( ${PROJECT_NAME}
     Font
     InputHandler
     FileSystem
+    Terrain
+    TileEngine
 )
